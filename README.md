@@ -28,8 +28,6 @@ You're a computer science or software engineering student who:
 
 Each chapter has this structure:
 
-Each chapter has this structure:
-
 1. **The Story** - Real-world analogy for the concept
 2. **The Reality** - What's actually happening in Kubernetes
 3. **The Experiment** - You run it yourself and see results
@@ -50,20 +48,12 @@ These are components you'll use 90% of the time working with Kubernetes.
 
 - **[Chapter 3: Deployments - The Copy Machine](./chapters/03-deployments/)** - Scaling, rolling updates, and self-healing that's not magic
 - **[Chapter 4: Services - The Traffic Director](./chapters/04-services/)** - How pods communicate when their IP addresses keep changing
-- **[Chapter 5: ConfigMaps & Secrets](./chapters/05-config/)** - Separate config from code, a best practice often ignored
-
-### Part 3: Real World Usage
-From "hello world" to "production-ready" (well, almost).
-
-- **[Chapter 6: Storage that Survives](./chapters/06-storage/)** - Pod dies, data stays alive
-- **[Chapter 7: Ingress - The Front Door](./chapters/07-ingress/)** - Expose your apps to the internet with proper routing
-- **[Chapter 8: Debugging & Troubleshooting](./chapters/08-debugging/)** - Because something will definitely error
-
-### Part 4: Level Up
-For those who want to go deeper or prepare for production deployment.
-
-- **[Chapter 9: Best Practices](./chapters/09-best-practices/)** - Resource limits, health checks, and things that make senior engineers respect you
-- **[Chapter 10: Capstone Projects](./chapters/10-projects/)** - Build something real for your portfolio
+- **Chapter 5: ConfigMaps & Secrets** - Coming soon
+- **Chapter 6: Storage that Survives** - Coming soon
+- **Chapter 7: Ingress - The Front Door** - Coming soon
+- **Chapter 8: Debugging & Troubleshooting** - Coming soon
+- **Chapter 9: Best Practices** - Coming soon
+- **Chapter 10: Capstone Projects** - Coming soon
 
 ## Prerequisites
 
