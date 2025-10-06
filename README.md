@@ -18,6 +18,23 @@ You're a computer science or software engineering student who:
 - Want to understand DevOps but afraid of drowning in technical documentation
 - Have a class assignment or capstone project requiring distributed system deployment
 
+## Why Learn Kubernetes?
+
+**Market Reality:**
+- 94% of organizations use containers in production (CNCF Survey 2024)
+- Kubernetes skills can increase salary by 25-40% for entry-level DevOps roles
+- Top companies hiring: Google, Amazon, Microsoft, Netflix, Spotify, Uber
+- Average Kubernetes engineer salary: $120k-180k (US market, 2025)
+
+**Career Opportunities:**
+- DevOps Engineer
+- Cloud Engineer
+- Site Reliability Engineer (SRE)
+- Platform Engineer
+- Full-stack Developer (modern stack)
+
+Learning Kubernetes opens doors. Companies are literally throwing money at people who understand container orchestration.
+
 ## What Makes This Different?
 
 **Not:**
