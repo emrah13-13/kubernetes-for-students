@@ -6,6 +6,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/0xReLogic/kubernetes-for-students)](https://github.com/0xReLogic/kubernetes-for-students/stargazers)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![Made for Students](https://img.shields.io/badge/Made%20for-Students-blue)](https://github.com/0xReLogic/kubernetes-for-students)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/0xReLogic/kubernetes-for-students)
 
 > A hands-on learning journey through Kubernetes - because nobody learns distributed systems by reading 12 pages of YAML
 
