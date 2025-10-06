@@ -1,0 +1,42 @@
+# sidecar-logging.yaml
+# Example: Sidecar pattern for log processing
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-demo
+  labels:
+    pattern: sidecar
+spec:
+  # Shared volume between containers
+  volumes:
+  - name: shared-logs
+    emptyDir: {}
+  
+  containers:
+  # Main application container
+  - name: app
+    image: busybox:1.36
+    command: ["/bin/sh"]
+    args:
+    - "-c"
+    - "while true; do echo $(date) - App log >> /var/log/app.log; sleep 2; done"
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log
+  
+  # Sidecar: Log processor/forwarder
+  - name: log-processor
+    image: busybox:1.36
+    command: ["/bin/sh"]
+    args:
+    - "-c"
+    - "tail -f /var/log/app.log"
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log
+      
+# Usage:
+# kubectl apply -f sidecar-logging.yaml
+# kubectl logs sidecar-demo -c app
+# kubectl logs sidecar-demo -c log-processor

@@ -1,0 +1,48 @@
+# health-probes.yaml
+# Example: Liveness and Readiness probes
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: health-demo
+  labels:
+    example: probes
+spec:
+  containers:
+  - name: app
+    image: nginx:1.25
+    ports:
+    - containerPort: 80
+    
+    # Liveness Probe: Is container alive?
+    # If fails: Container restarted
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5  # Wait 5s before first check
+      periodSeconds: 10       # Check every 10s
+      timeoutSeconds: 1       # Probe timeout
+      failureThreshold: 3     # Restart after 3 failures
+    
+    # Readiness Probe: Is container ready for traffic?
+    # If fails: Removed from Service endpoints
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 3
+      periodSeconds: 5
+      timeoutSeconds: 1
+      successThreshold: 1     # Ready after 1 success
+      failureThreshold: 3     # Not ready after 3 failures
+
+# Probe types:
+# 1. httpGet - HTTP request
+# 2. tcpSocket - TCP connection
+# 3. exec - Run command
+
+# Usage:
+# kubectl apply -f health-probes.yaml
+# kubectl get pod health-demo
+# kubectl describe pod health-demo | grep -A 10 "Liveness"

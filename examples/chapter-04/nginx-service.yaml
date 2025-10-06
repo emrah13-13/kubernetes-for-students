@@ -1,0 +1,24 @@
+# nginx-service.yaml
+# Example: ClusterIP service for internal access
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  # Type: ClusterIP (default) - internal only
+  type: ClusterIP
+  
+  # Select pods with this label
+  selector:
+    app: nginx
+  
+  # Port configuration
+  ports:
+  - protocol: TCP
+    port: 80        # Service listens on this port
+    targetPort: 80  # Forward to this port on pods
+    
+# Access: 
+# - From same namespace: nginx-service
+# - From other namespace: nginx-service.default.svc.cluster.local

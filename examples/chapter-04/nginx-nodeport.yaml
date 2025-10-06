@@ -1,0 +1,24 @@
+# nginx-nodeport.yaml
+# Example: NodePort service for external access
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-nodeport
+spec:
+  # Type: NodePort - accessible from outside cluster
+  type: NodePort
+  
+  selector:
+    app: nginx
+  
+  ports:
+  - protocol: TCP
+    port: 80        # ClusterIP port
+    targetPort: 80  # Pod port
+    nodePort: 30080 # External port on nodes (30000-32767)
+    
+# Access:
+# - Internal: nginx-nodeport (ClusterIP)
+# - External: <NodeIP>:30080
+# - Minikube: minikube service nginx-nodeport

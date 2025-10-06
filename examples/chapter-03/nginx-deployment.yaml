@@ -1,0 +1,38 @@
+# nginx-deployment.yaml
+# Example: Basic deployment with 3 replicas
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  # Number of pod replicas to maintain
+  replicas: 3
+  
+  # How to find the pods this deployment manages
+  selector:
+    matchLabels:
+      app: nginx
+  
+  # Template for creating pods
+  template:
+    metadata:
+      labels:
+        app: nginx  # Must match selector above
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+        
+        # Optional: Resource limits
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+            memory: "64Mi"
+            cpu: "250m"

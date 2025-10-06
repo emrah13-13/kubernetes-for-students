@@ -1,0 +1,37 @@
+# Kubernetes Learning Files
+*.kubeconfig
+kubeconfig
+.kube/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.*.sw*
+
+# Logs
+*.log
+logs/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+
+# Personal Notes
+notes/
+personal/
+scratch/
+
+# Minikube
+.minikube/
+
+# Generated Files
+*.generated.yaml

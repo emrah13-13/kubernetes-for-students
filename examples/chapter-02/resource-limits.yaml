@@ -1,0 +1,35 @@
+# resource-limits.yaml
+# Example: Resource requests and limits
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resource-demo
+  labels:
+    example: resources
+spec:
+  containers:
+  - name: app
+    image: nginx:1.25
+    ports:
+    - containerPort: 80
+    
+    # Resource configuration
+    resources:
+      # Requests: Minimum guaranteed
+      requests:
+        memory: "64Mi"   # Megabytes
+        cpu: "250m"      # Millicores (0.25 CPU)
+      
+      # Limits: Maximum allowed
+      limits:
+        memory: "128Mi"  # If exceeded, pod killed (OOMKilled)
+        cpu: "500m"      # If exceeded, CPU throttled
+
+# QoS Class: Burstable (requests != limits)
+# To get Guaranteed: set requests = limits
+
+# Usage:
+# kubectl apply -f resource-limits.yaml
+# kubectl top pod resource-demo
+# kubectl describe pod resource-demo | grep -A 5 "Limits"
