@@ -1,0 +1,86 @@
+# deployment-multi-env.yaml
+# Example: Same deployment, different configs per environment
+
+---
+# Development ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: dev
+data:
+  environment: "development"
+  api_url: "http://dev-api.internal:8080"
+  debug_mode: "true"
+  log_level: "debug"
+  cache_ttl: "60"
+
+---
+# Production ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: prod
+data:
+  environment: "production"
+  api_url: "https://api.example.com"
+  debug_mode: "false"
+  log_level: "info"
+  cache_ttl: "3600"
+
+---
+# Deployment (same YAML for both namespaces)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: app
+        image: nginx:1.25
+        env:
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: environment
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: api_url
+        - name: DEBUG_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: debug_mode
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: log_level
+
+# Usage:
+# Create namespaces:
+# kubectl create namespace dev
+# kubectl create namespace prod
+#
+# Deploy to dev:
+# kubectl apply -f deployment-multi-env.yaml -n dev
+#
+# Deploy to prod:
+# kubectl apply -f deployment-multi-env.yaml -n prod
+#
+# Verify different configs:
+# kubectl exec -n dev deployment/web-app -- env | grep ENVIRONMENT
+# kubectl exec -n prod deployment/web-app -- env | grep ENVIRONMENT

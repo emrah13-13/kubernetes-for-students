@@ -73,7 +73,7 @@ These are components you'll use 90% of the time working with Kubernetes.
 
 - **[Chapter 3: Deployments - The Copy Machine](./chapters/03-deployments/)** - Scaling, rolling updates, and self-healing that's not magic
 - **[Chapter 4: Services - The Traffic Director](./chapters/04-services/)** - How pods communicate when their IP addresses keep changing
-- **Chapter 5: ConfigMaps & Secrets** - Coming soon
+- **[Chapter 5: ConfigMaps & Secrets - Configuration Done Right](./chapters/05-config/)** - Externalize configuration the professional way
 - **Chapter 6: Storage that Survives** - Coming soon
 - **Chapter 7: Ingress - The Front Door** - Coming soon
 - **Chapter 8: Debugging & Troubleshooting** - Coming soon

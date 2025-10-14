@@ -1,0 +1,75 @@
+# app-configmap.yaml
+# Example: ConfigMap with multiple data types
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  labels:
+    app: demo
+data:
+  # Simple key-value pairs
+  app_name: "My Awesome App"
+  log_level: "debug"
+  max_connections: "100"
+  
+  # JSON configuration
+  feature_flags: |
+    {
+      "new_ui": true,
+      "beta_features": false,
+      "analytics": true,
+      "dark_mode": true
+    }
+  
+  # YAML configuration
+  database.yaml: |
+    host: localhost
+    port: 5432
+    pool:
+      min: 5
+      max: 20
+    timeout: 30
+  
+  # Application properties file
+  application.properties: |
+    server.port=8080
+    server.shutdown=graceful
+    spring.application.name=demo-app
+    logging.level.root=INFO
+    
+  # Nginx config example
+  nginx.conf: |
+    events {
+      worker_connections 1024;
+    }
+    http {
+      server {
+        listen 80;
+        server_name example.com;
+        
+        location / {
+          proxy_pass http://backend:8080;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+        }
+      }
+    }
+
+# Usage examples:
+# 1. As environment variables:
+#    env:
+#    - name: APP_NAME
+#      valueFrom:
+#        configMapKeyRef:
+#          name: app-config
+#          key: app_name
+#
+# 2. As mounted files:
+#    volumeMounts:
+#    - name: config
+#      mountPath: /etc/config
+#    volumes:
+#    - name: config
+#      configMap:
+#        name: app-config

@@ -1,0 +1,60 @@
+# pod-with-config-volume.yaml
+# Example: Mounting ConfigMap as files
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-with-config-files
+  labels:
+    app: demo
+spec:
+  containers:
+  - name: app
+    image: busybox:1.36
+    command:
+    - sh
+    - -c
+    - |
+      echo "=== Configuration Files ==="
+      echo ""
+      echo "--- nginx.conf ---"
+      cat /etc/config/nginx.conf
+      echo ""
+      echo "--- application.properties ---"
+      cat /etc/config/application.properties
+      echo ""
+      echo "Sleeping..."
+      sleep 3600
+    
+    volumeMounts:
+    # Mount entire ConfigMap as directory
+    - name: config-volume
+      mountPath: /etc/config
+      readOnly: true
+    
+    # Or mount specific key as file using subPath
+    # - name: config-volume
+    #   mountPath: /etc/nginx/nginx.conf
+    #   subPath: nginx.conf
+    #   readOnly: true
+  
+  volumes:
+  - name: config-volume
+    configMap:
+      name: app-config
+      # Optional: select specific items
+      # items:
+      # - key: nginx.conf
+      #   path: nginx.conf
+      # - key: application.properties
+      #   path: app.properties
+
+# This pod mounts ConfigMap as files in /etc/config/
+# Files are created for each key in the ConfigMap
+#
+# Apply:
+# kubectl apply -f app-configmap.yaml  # Create ConfigMap first
+# kubectl apply -f pod-with-config-volume.yaml
+#
+# Check:
+# kubectl logs app-with-config-files
