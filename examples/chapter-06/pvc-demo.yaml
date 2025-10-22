@@ -1,0 +1,80 @@
+# pvc-demo.yaml
+# Example: PersistentVolumeClaim - Storage that survives pod restarts
+
+---
+# Step 1: Create PVC (request for storage)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+  labels:
+    app: pvc-demo
+spec:
+  accessModes:
+  - ReadWriteOnce  # Can be mounted by single node at a time
+  # Other access modes:
+  # - ReadOnlyMany: Multiple nodes can mount read-only
+  # - ReadWriteMany: Multiple nodes can mount read-write (not all storage supports this)
+  
+  resources:
+    requests:
+      storage: 1Gi  # Request 1GB of storage
+  
+  storageClassName: standard  # Use default storage class (auto in minikube)
+  # In production, you might specify: fast-ssd, slow-hdd, etc.
+
+---
+# Step 2: Use PVC in Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-pod
+  labels:
+    app: pvc-demo
+spec:
+  containers:
+  - name: app
+    image: busybox:1.36
+    command: ['sh', '-c']
+    args:
+    - |
+      echo "=== PVC Demo - Counter App ==="
+      
+      # Check if data file exists
+      if [ -f /data/counter.txt ]; then
+        COUNTER=$(cat /data/counter.txt)
+        echo "Previous counter value: $COUNTER"
+        COUNTER=$((COUNTER + 1))
+      else
+        echo "First run, initializing counter"
+        COUNTER=1
+      fi
+      
+      # Save new counter value
+      echo $COUNTER > /data/counter.txt
+      echo "Current counter: $COUNTER"
+      echo "Counter saved to /data/counter.txt"
+      echo ""
+      echo "Delete this pod and recreate it - counter will persist!"
+      echo "Sleeping for 1 hour..."
+      sleep 3600
+    
+    volumeMounts:
+    - name: persistent-storage
+      mountPath: /data
+  
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: my-pvc  # References the PVC created above
+
+# Usage:
+# kubectl apply -f pvc-demo.yaml
+# kubectl logs pvc-pod  # Counter: 1
+#
+# kubectl delete pod pvc-pod
+# kubectl apply -f pvc-demo.yaml
+# kubectl logs pvc-pod  # Counter: 2 (data persisted!)
+#
+# kubectl get pvc  # PVC still exists
+# kubectl delete pvc my-pvc  # Clean up storage

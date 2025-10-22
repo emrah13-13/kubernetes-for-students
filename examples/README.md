@@ -6,9 +6,11 @@ This directory contains all YAML files used in the chapters, organized for easy 
 
 ```
 examples/
-├── chapter-01/   # First Contact
+├── chapter-02/   # Pods Deep Dive
 ├── chapter-03/   # Deployments
 ├── chapter-04/   # Services
+├── chapter-05/   # ConfigMaps & Secrets
+├── chapter-06/   # Persistent Storage
 └── ...
 ```
 

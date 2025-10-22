@@ -1,0 +1,94 @@
+# redis-persistent.yaml
+# Example: Redis with persistent storage (Challenge solution)
+
+---
+# PVC for Redis data
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  labels:
+    app: redis
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+# Redis Pod with persistence
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  containers:
+  - name: redis
+    image: redis:7.2
+    
+    ports:
+    - containerPort: 6379
+      name: redis
+    
+    # Mount PVC to /data (Redis data directory)
+    volumeMounts:
+    - name: redis-storage
+      mountPath: /data
+    
+    # Enable Redis persistence with AOF (Append Only File)
+    command: ['redis-server']
+    args:
+    - --appendonly
+    - "yes"
+    - --appendfilename
+    - "appendonly.aof"
+    - --dir
+    - "/data"
+    
+    # Resource limits
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "200m"
+  
+  volumes:
+  - name: redis-storage
+    persistentVolumeClaim:
+      claimName: redis-pvc
+
+# Usage:
+# kubectl apply -f redis-persistent.yaml
+# kubectl wait --for=condition=ready pod/redis --timeout=60s
+#
+# Store some data:
+# kubectl exec -it redis -- redis-cli SET name "Kubernetes Student"
+# kubectl exec -it redis -- redis-cli SET course "K8s Storage"
+# kubectl exec -it redis -- redis-cli SET chapter "Chapter 6"
+#
+# Verify:
+# kubectl exec -it redis -- redis-cli GET name
+# kubectl exec -it redis -- redis-cli KEYS '*'
+#
+# Delete pod:
+# kubectl delete pod redis
+#
+# Recreate:
+# kubectl apply -f redis-persistent.yaml
+# kubectl wait --for=condition=ready pod/redis --timeout=60s
+#
+# Verify data persists:
+# kubectl exec -it redis -- redis-cli GET name
+# kubectl exec -it redis -- redis-cli GET course
+# kubectl exec -it redis -- redis-cli KEYS '*'
+#
+# All data is still there!
+#
+# Cleanup:
+# kubectl delete pod redis
+# kubectl delete pvc redis-pvc

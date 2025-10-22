@@ -1,0 +1,53 @@
+# pod-with-hostpath.yaml
+# Example: Mount directory from node's filesystem
+# WARNING: Only for development/testing. Not portable across nodes.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-pod
+  labels:
+    app: hostpath-demo
+spec:
+  containers:
+  - name: app
+    image: busybox:1.36
+    command: ['sh', '-c']
+    args:
+    - |
+      echo "=== HostPath Demo ==="
+      echo "Writing to node filesystem at /tmp/k8s-data"
+      echo "$(date): Pod $HOSTNAME was here" >> /host-data/visits.txt
+      echo ""
+      echo "All visits:"
+      cat /host-data/visits.txt
+      echo ""
+      echo "Sleeping for 1 hour..."
+      sleep 3600
+    volumeMounts:
+    - name: host-storage
+      mountPath: /host-data
+  
+  volumes:
+  - name: host-storage
+    hostPath:
+      path: /tmp/k8s-data
+      type: DirectoryOrCreate  # Creates directory if not exists
+
+# Other hostPath types:
+# - Directory: Must exist
+# - File: Must exist as file
+# - FileOrCreate: Creates file if not exists
+# - DirectoryOrCreate: Creates directory if not exists (used here)
+
+# Common use cases:
+# 1. Access Docker socket: /var/run/docker.sock
+# 2. Read node logs: /var/log
+# 3. Development/testing on single-node cluster
+
+# Usage:
+# kubectl apply -f pod-with-hostpath.yaml
+# kubectl logs hostpath-pod
+# kubectl delete pod hostpath-pod
+# kubectl apply -f pod-with-hostpath.yaml
+# kubectl logs hostpath-pod  # Previous data still there (if same node)

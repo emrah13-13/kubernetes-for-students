@@ -1,0 +1,59 @@
+# pod-with-emptydir.yaml
+# Example: Shared temporary storage between containers
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shared-storage-pod
+  labels:
+    app: emptydir-demo
+spec:
+  containers:
+  # Writer container - generates logs
+  - name: writer
+    image: busybox:1.36
+    command: ['sh', '-c']
+    args:
+    - |
+      echo "Writer container started"
+      while true; do
+        echo "$(date): Writer says hello" >> /data/log.txt
+        sleep 5
+      done
+    volumeMounts:
+    - name: shared-data
+      mountPath: /data
+  
+  # Reader container - reads logs
+  - name: reader
+    image: busybox:1.36
+    command: ['sh', '-c']
+    args:
+    - |
+      echo "Reader container started"
+      sleep 3  # Wait for writer to create file
+      while true; do
+        echo "=== Latest logs ==="
+        tail -5 /data/log.txt 2>/dev/null || echo "No logs yet"
+        echo ""
+        sleep 10
+      done
+    volumeMounts:
+    - name: shared-data
+      mountPath: /data
+  
+  volumes:
+  - name: shared-data
+    emptyDir: {}
+    # Optional: Use memory instead of disk
+    # emptyDir:
+    #   medium: Memory
+    #   sizeLimit: 128Mi
+
+# Usage:
+# kubectl apply -f pod-with-emptydir.yaml
+# kubectl logs shared-storage-pod -c writer
+# kubectl logs shared-storage-pod -c reader
+#
+# Both containers see the same /data directory
+# Data is lost when pod is deleted
